@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 
@@ -41,9 +40,10 @@ public class PlayerMovement : MonoBehaviour
             );
         }
 
-        // Pulo duplo
-        if (Input.GetButtonDown("Jump") && pulosRestantes > 0
-            && !fazendoDash)
+        // Pulo duplo com som
+        if (Input.GetButtonDown("Jump") &&
+            pulosRestantes > 0 &&
+            !fazendoDash)
         {
             rb.linearVelocity = new Vector2(
                 rb.linearVelocity.x, 0f
@@ -55,6 +55,12 @@ public class PlayerMovement : MonoBehaviour
             );
 
             pulosRestantes--;
+
+            // Tocar som do pulo
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.TocarJump();
+            }
         }
 
         // Dash com Shift
@@ -69,7 +75,6 @@ public class PlayerMovement : MonoBehaviour
         podeDash = false;
         fazendoDash = true;
 
-        // Se não estiver apertando direção, usa a direção do personagem
         float direcaoDash = direcao;
 
         if (direcaoDash == 0)
@@ -78,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.gravityScale = 0f;
+
         rb.linearVelocity = new Vector2(
             direcaoDash * velocidadeDash, 0f
         );
